@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Airplane Path Animation</title>
+  <style>
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: linear-gradient(to bottom, #87ceeb, #ffffff);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    /* The external SVG will render at this size */
+    object#svgPath { width: 800px; height: 400px; }
+    /* Plane image (drop a ~50–80px wide PNG into this folder named plane.png) */
+    #plane { position: absolute; width: clamp(50px, 7vw, 80px); height: auto; pointer-events: none; }
+  </style>
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
+</head>
+<body>
+
+  <!-- Load your Illustrator path from the repo Images folder -->
+  <!-- Put your SVG file at: Images/Flightpath.svg and ensure the main path has id="flightPath" -->
+  <object id="svgPath" type="image/svg+xml" data="../Images/Flightpath.svg"></object>
+
+  <!-- Airplane image placed in this folder as plane.png (50–80px wide recommended) -->
+  <!-- Use the plane from your Images folder; it will be scaled down via CSS width -->
+  <img id="plane" src="../Images/plane.png" alt="plane" />
+
+  <script>
+    gsap.registerPlugin(MotionPathPlugin);
+
+    const svgObj = document.getElementById('svgPath');
+    svgObj.addEventListener('load', function () {
+      const svgDoc = svgObj.contentDocument;
+      if (!svgDoc) return;
+      const path = svgDoc.getElementById('flightPath');
+      if (!path) {
+        console.warn('No element with id="flightPath" found inside Flightpath.svg');
+        return;
+      }
+
+      // Plane follows the path, looping forever
+      gsap.to('#plane', {
+        duration: 8,
+        repeat: -1,
+        ease: 'power1.inOut',
+        motionPath: {
+          path: path,
+          align: path,
+          alignOrigin: [0.1, 0.1]
+        }
+      });
+
+      // Optional: animated trail along the path
+      // Ensure your path has stroke, stroke-width, fill="none"
+      // Example in your SVG: <path id="flightPath" d="..." stroke="white" stroke-width="2" fill="none" />
+      try {
+        gsap.fromTo(path, { strokeDasharray: '0,1000' }, { strokeDasharray: '1000,0', duration: 8, repeat: -1, ease: 'none' });
+      } catch (e) {
+        // If the path lacks stroke, this will simply be a no-op
+      }
+    });
+  </script>
+
+</body>
+</html>

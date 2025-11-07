@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Home - Portfolio</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-container">
+        <nav class="menu" aria-label="Main">
+          <a href="#home" aria-current="page">Home</a>
+          <a href="#about">About Me</a>
+          <a href="#projects">Projects</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="content" tabindex="-1">
+      <section id="home" class="intro compartment band reveal" aria-labelledby="intro-title">
+        <div class="band-container stagger">
+          <div class="intro-hero centered">
+            <div class="intro-copy">
+              <h1 id="intro-title" class="headline"><span class="hi">Hi,</span></h1>
+              <p class="subhead">I'm Victor Quaedvlieg. I specialize in 3D design, storytelling and photography.</p>
+              <p class="lead">Here are some of the projects I've worked on..</p>
+            </div>
+          </div>
+          
+        </div>
+      </section>
+
+      <section id="about" class="about band reveal" aria-labelledby="about-title">
+        <div class="band-container stagger">
+          <!-- left column: text -->
+          <div class="about-content">
+            <h2 id="about-title">About Me</h2>
+            <p class="lead">My name is Victor Quaedvlieg, and I'm a 22-year-old student at Avans University of Applied Sciences, currently in my third year of the Communication and Multimedia Design program. I'm passionate about the intersection of storytelling and technology, where creativity meets innovation.</p>
+            <p>My strengths lie in 3D design, photography, and videography, through which I explore new ways to craft engaging, immersive experiences. I enjoy translating ideas into visually compelling narratives that connect with audiences on both emotional and conceptual levels.</p>
+            <p>Looking ahead, my goal is to design interactive products and create immersive visual experiences at a professional level. I aim to continue developing my technical expertise while refining my ability to communicate stories that leave a lasting impact through design, motion, and interactivity.</p>
+          </div>
+
+          <!-- right column: photo + centered skills & languages -->
+          <div class="about-side">
+            <figure class="about-photo">
+              <img src="Images/Victor.jpg" alt="Victor Quaedvlieg" />
+            </figure>
+
+            <!-- grouped so the whole block can match Education’s height -->
+            <div class="about-extras">
+              <div class="skills">
+              <h3>Experience with</h3>
+                <div class="tool-logos" role="list">
+                <div class="tool-logo" aria-label="Blender" title="Blender"></div>
+                <div class="tool-logo" aria-label="Photoshop" title="Photoshop" data-abbrev="Ps"></div>
+                <div class="tool-logo" aria-label="Illustrator" title="Illustrator" data-abbrev="Ai"></div>
+                <div class="tool-logo" aria-label="Premiere Pro" title="Premiere Pro" data-abbrev="Pr"></div>
+                </div>
+              </div>
+
+              <div class="languages">
+                <h3>Languages</h3>
+                <ul class="languages-list" aria-label="Languages">
+                  <li><span class="lang">English</span></li>
+                  <li><span class="lang">Dutch</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- block under the text column -->
+          <div class="about-edu">
+            <h3>Education</h3>
+            <ul class="edu-list">
+              <li>
+                <strong>Avans University of Applied Sciences</strong> — Communication &amp; Multimedia Design (Aug. 2023 – now)
+              </li>
+              <li>
+                <strong>Canisius College</strong> — HAVO E/M (Aug. 2015 – Juli 2021)
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" class="projects compartment band reveal" aria-labelledby="projects-title">
+        <div class="band-container stagger">
+          <h2 id="projects-title">Projects</h2>
+          <div class="rolodex">
+          <article class="project-card" style="--image: url('Images/ar-you-ready/ARyoureadycard.png')">
+            <div class="project-media" role="img" aria-label="AR you ready? immersive exploration of Dutch life in 2050 through the eyes of a journalist."></div>
+            <div class="project-info">
+              <h3>AR you ready?</h3>
+              <p>
+                "AR you ready" offers an immersive experience that allows you to explore the Dutch living environment in 2050 through the eyes of a journalist. By stepping into a potential future scenario, it provides a realistic glimpse into the future everyday life of the average Dutch citizen.
+              </p>
+              <div class="project-meta">
+                <span class="pill">Immersive Design</span>
+                <span class="pill">Speculative Design</span>
+              </div>
+            </div>
+            <a class="card-link" href="projects/ar-you-ready.html" aria-label="View project: AR you ready?"></a>
+          </article>
+
+          <article class="project-card" style="--image: url('Images/media-madness/MEDIAMADNESScard.png')">
+            <div class="project-media" role="img" aria-label="MEDIA MADNESS - a short film critiquing modern work ethic, attention spans, and unethical media practices."></div>
+            <div class="project-info">
+              <h3>MEDIA MADNESS</h3>
+              <p>
+                A short movie both criticizing modern work ethic, attention spans and unethical media practices.
+              </p>
+              <div class="project-meta">
+                <span class="pill">Satire</span>
+                <span class="pill">Storytelling</span>
+              </div>
+            </div>
+            <a class="card-link" href="projects/media-madness.html" aria-label="View project: MEDIA MADNESS"></a>
+          </article>
+
+          <article class="project-card" style="--image: url('Images/pure-hap/PureHapcard.png')">
+            <div class="project-media" role="img" aria-label="Pure hap - satirical marketing campaign highlighting the growing presence of microplastics in everyday consumables."></div>
+            <div class="project-info">
+              <h3>Pure hap</h3>
+              <p>
+                A satirical marketing campaign set up to both criticize and raise awareness about the increasing growing presence of microplastics in everyday consumables.
+              </p>
+              <div class="project-meta">
+                <span class="pill">Speculative Design</span>
+                <span class="pill">Storytelling</span>
+              </div>
+            </div>
+            <a class="card-link" href="projects/pure-hap.html" aria-label="View project: Pure hap"></a>
+          </article>
+
+          <article class="project-card center-card" style="--image: url('Images/ExperimentalProjectscard.jpg')">
+            <div class="project-media" role="img" aria-label="Experimental Projects - 3D design, photography, and other explorations."></div>
+            <div class="project-info">
+              <h3>Experimental Projects</h3>
+              <p>
+                3D-design projects, photography, etc.
+              </p>
+              <div class="project-meta">
+                <span class="pill">3D</span>
+                <span class="pill">Photography</span>
+                <span class="pill">Exploration</span>
+              </div>
+            </div>
+            <a class="card-link" href="projects/experimental-projects.html" aria-label="View project: Experimental Projects"></a>
+          </article>
+          </div>
+        </div>
+      </section>
+
+
+      <section id="contact" class="contact compartment band reveal" aria-labelledby="contact-title">
+        <div class="band-container stagger">
+          <h2 id="contact-title">Contact</h2>
+          <div class="contact-card">
+            <p>Email: <a href="mailto:quaedvliegvic@icloud.com">quaedvliegvic@icloud.com</a></p>
+            <p>Phone: <a href="tel:+31645509957">(+31) 6 4550 9957</a></p>
+          </div>
+
+          <h3 class="contact-subtitle">Get in touch</h3>
+          <form class="contact-form" action="mailto:quaedvliegvic@icloud.com" method="POST" enctype="text/plain">
+            <h3 class="visually-hidden">Send a message</h3>
+            <div class="form-grid">
+              <div class="field">
+                <label for="firstName">First name</label>
+                <input id="firstName" name="First name" type="text" required />
+              </div>
+              <div class="field">
+                <label for="lastName">Last name</label>
+                <input id="lastName" name="Last name" type="text" required />
+              </div>
+              <div class="field field-full">
+                <label for="email">Email</label>
+                <input id="email" name="Email" type="email" required />
+              </div>
+              <div class="field field-full">
+                <label for="message">Message</label>
+                <textarea id="message" name="Message" rows="6" required></textarea>
+              </div>
+            </div>
+            <button class="btn" type="submit">Send</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    
+
+    <script src="menu.js"></script>
+    <script src="rolodex.js"></script>
+    <footer class="site-footer">
+      <div class="footer-container">
+        <p>&copy; <span id="year"></span> Victor Quaedvlieg. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+  </html>

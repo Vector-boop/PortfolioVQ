@@ -1,0 +1,717 @@
+/* Basic palette and mostly-blank starter styles */
+:root {
+  --bg: #0f1012;
+  --panel: #17181c;
+  --text: #e6e7eb;
+  --muted: #a1a6b0;
+  --accent: #4f46e5;
+}
+
+/* Layout reset */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  overflow-x: hidden; /* prevent horizontal shift from full-bleed bands */
+}
+html { scroll-behavior: smooth; }
+/* Removed airplane animation styles */
+/* Fixed top bar navigation */
+.topbar { position: fixed; top: 0; left: 0; right: 0; height: 56px; background: var(--panel); border-bottom: 1px solid #262730; z-index: 1003; }
+.topbar .topbar-container { max-width: none; width: 100%; margin: 0; padding: 0 24px; height: 100%; display: flex; align-items: center; justify-content: center; }
+.topbar .menu { display: flex; gap: 12px; }
+.topbar .menu a { color: var(--text); text-decoration: none; padding: 6px 10px; border-radius: 6px; position: relative; }
+.topbar .menu a:hover { background: #1f2130; color: #ffffff; }
+.topbar .menu a[aria-current="page"]::after { content: ""; position: absolute; left: 10px; right: 10px; bottom: -8px; height: 3px; border-radius: 2px; background: var(--accent); }
+
+/* Section compartments */
+.compartment {
+  background: var(--panel);
+  border: 1px solid #262730;
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 32px;
+}
+
+/* Full-width bands that feel like new pages */
+.band {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  margin-left: -50vw; /* center band to viewport without overflow */
+  background: #14161c; /* slightly different from body for contrast */
+  min-height: 100vh; /* at least one screen of space per section */
+  display: block;
+  padding-block: 10vh; /* breathing room top/bottom */
+}
+.band::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0; height: 20px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0));
+  pointer-events: none;
+}
+.band::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0; height: 28px;
+  background: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.45));
+  pointer-events: none;
+}
+
+/* Remove band gradients for hard transitions */
+.band::before, .band::after { content: none !important; display: none !important; }
+.band:nth-of-type(2n) { background: #101219; }
+.band.compartment { background: transparent; border: 0; border-radius: 0; padding: 0; margin-top: 48px; }
+.band .band-container { max-width: 1680px; margin: 0 auto; padding: 0 24px; }
+
+/* Home section: no custom background or offsets */
+
+/* Slightly lighter background for About + Contact bands */
+#about.band { background: #181b24; }
+#contact.band { background: #181b24; padding-top: 14vh; }
+
+/* Scroll reveal */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+/* Staggered child reveals inside a visible section */
+.stagger > * { opacity: 0; transform: translateY(10px); }
+.reveal.visible .stagger > * { animation: fade-up .6s ease forwards; }
+.reveal.visible .stagger > *:nth-child(2) { animation-delay: .06s; }
+.reveal.visible .stagger > *:nth-child(3) { animation-delay: .12s; }
+.reveal.visible .stagger > *:nth-child(4) { animation-delay: .18s; }
+.reveal.visible .stagger > *:nth-child(5) { animation-delay: .24s; }
+.reveal.visible .stagger > *:nth-child(6) { animation-delay: .30s; }
+@keyframes fade-up { to { opacity: 1; transform: none; } }
+
+/* Sliding menu essentials */
+/* Removed legacy sidebar styles */
+
+/* Page content area */
+.content { padding: 96px 24px 0; max-width: 1680px; margin: 0 auto; }
+.content h1 { margin-top: 0; }
+
+/* Add your portfolio styles below this line */
+/* -------------------------------------------------- */
+
+/* Projects section */
+.projects { margin-top: 16px; }
+.projects h2 { font-size: 1.75rem; margin-bottom: 16px; text-align: center; }
+
+/* Make the Projects band full-bleed */
+#projects.band .band-container { max-width: none; padding: 0; }
+
+/* Stretch the rolodex edge-to-edge (with a bit of side padding) */
+#projects .rolodex {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  margin-left: -50vw;     /* center to viewport */
+  padding: 40px 24px 56px; /* keep vertical spacing + gutter */
+}
+
+/* Optional: align the section title to viewport with gutters */
+#projects .band-container > h2#projects-title {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  margin-left: -50vw;
+  padding: 0 24px;
+}
+
+/* Rolodex: minimalist 3D horizontal scroller */
+.rolodex {
+  --gap: 32px;
+  --card-w: clamp(320px, 52vw, 720px);
+  display: flex;
+  gap: var(--gap);
+  overflow-x: auto;
+  overflow-y: hidden; /* hide vertical scrollbar caused by horizontal bar */
+  padding: 40px 0 56px; /* extra vertical space for a roomier look */
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth; /* smoother manual/trackpad scroll */
+  -webkit-overflow-scrolling: touch;
+  perspective: 1000px;
+  -ms-overflow-style: none; /* IE/Edge: hide scrollbar */
+  scrollbar-width: none; /* Firefox: hide scrollbar */
+}
+.rolodex.is-paging { scroll-snap-type: none; }
+.rolodex::before,
+.rolodex::after {
+  content: "";
+  /* spacers so first/last card can reach center */
+  /* JS will compute precise size; default to 0 to avoid mis-centering */
+  flex: 0 0 0px;
+}
+.rolodex::-webkit-scrollbar { height: 0; width: 0; }
+.rolodex::-webkit-scrollbar-track { background: transparent; }
+.rolodex::-webkit-scrollbar-thumb { background: transparent; }
+.rolodex .project-card {
+  flex: 0 0 var(--card-w);
+  height: auto; /* Let media define height; keeps images square */
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+/* Ensure media fills available height inside fixed-height card */
+.rolodex .project-media {
+  width: 100%;
+  aspect-ratio: 1 / 1; /* keep images square */
+  background-size: cover; /* fill square, crop as needed */
+  background-position: center;
+}
+
+/* Optimize for 1440p: widen container */
+@media (min-width: 1440px) { .content { max-width: min(92vw, 2200px); } }
+
+.project-card {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid #262730;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 0;
+  transition: transform .15s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.project-card .card-link {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border-radius: inherit;
+  z-index: 5;
+}
+.project-card .card-link:focus { outline: 2px solid var(--accent); outline-offset: 3px; }
+.project-card:hover,
+.project-card:focus-within {
+  transform: translateY(-2px);
+  border-color: #343749;
+  box-shadow: 0 6px 20px rgba(0,0,0,.25);
+}
+/* In rolodex, preserve JS 3D transform on hover/focus */
+.rolodex .project-card:hover,
+.rolodex .project-card:focus-within {
+  transform: none;
+  border-color: #343749;
+  box-shadow: 0 6px 20px rgba(0,0,0,.25);
+}
+
+/* Image area using CSS variable for easy swapping */
+.project-media {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-image: var(--image), linear-gradient(180deg, #1c1d24 0%, #12131a 100%);
+  background-size: cover;
+  background-position: center;
+}
+
+/* Overlay with title and text, shown on hover/focus */
+.project-info {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 20px;
+  /* Higher + darker gradient for legibility on bright images */
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 10%,
+    rgba(0, 0, 0, 0.75) 60%,
+    rgba(0, 0, 0, 0.85) 100%
+  );
+  color: var(--text);
+  transform: translateY(8px);
+  opacity: 0;
+  transition: opacity .25s ease, transform .25s ease, background .25s ease;
+}
+.project-card:hover .project-info,
+.project-card:focus-within .project-info {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* On hover/focus, shift gradient to a subtle black → blue */
+.project-card:hover .project-info,
+.project-card:focus-within .project-info {
+  /* Darker hover state with blue base */
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 8%,
+    rgba(0, 0, 0, 0.65) 50%,
+    rgba(79, 70, 229, 0.80) 100%
+  );
+}
+
+.project-card h3 { margin: 0 0 6px; font-size: 1.35rem; }
+.project-card p { margin: 0 10px 10px 0; color: #d8dae3; }
+.project-meta { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* No special centering needed in rolodex */
+
+/* Project pages */
+.lead { color: var(--muted); max-width: 80ch; }
+.hero { margin: 16px 0 24px; border-radius: 12px; overflow: hidden; border: 1px solid #262730; }
+.hero img { display: block; width: 100%; height: auto; }
+/* Simple gallery grid and placeholders */
+.gallery { margin-top: 16px; }
+.image-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+/* Neutral placeholder that doesn't override tile styling */
+.placeholder { background: #0f1118; }
+/* Play icon overlay for video placeholder */
+.video-placeholder { position: relative; }
+.video-placeholder::after { content: ""; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 0; height: 0; border-left: 22px solid #ffffff; border-top: 14px solid transparent; border-bottom: 14px solid transparent; opacity: 0.9; filter: drop-shadow(0 2px 4px rgba(0,0,0,.5)); }
+
+/* Responsive YouTube embed helper (when you add a real video) */
+.video-embed { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 12px; overflow: hidden; border: 1px solid #262730; }
+.video-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+/* Full-bleed background from card image */
+.project-page {
+  background-color: var(--bg);
+  background-image: none !important; /* make project page backgrounds clear */
+  background-size: auto;
+  background-position: initial;
+  background-attachment: initial;
+}
+.project-content { display: flex; flex-direction: column; min-height: 100vh; gap: 16px; }
+.project-footer { margin-top: auto; text-align: center; }
+/* Place inline back button under tags for AR page */
+.project-actions { margin-top: 12px; }
+.ar-you-ready .project-footer, .media-madness .project-footer, .pure-hap .project-footer { display: none; }
+
+/* AR You Ready mosaic layout */
+.project-layout { display: grid; grid-template-columns: 1fr 1.6fr; gap: 24px; align-items: start; }
+/* Flipped columns variant (mosaic left, text right) */
+.project-layout.flip { grid-template-columns: 1.25fr 1fr; }
+.project-layout.flip .project-copy { grid-column: 2; }
+.project-layout.flip .project-mosaic { grid-column: 1; }
+@media (max-width: 900px) { .project-layout { grid-template-columns: 1fr; } }
+
+.project-copy { display: grid; gap: 12px; max-width: 60ch; }
+.project-copy h1 { margin-bottom: 4px; }
+
+/* Project tags / pointers under text */
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.project-tags .tag {
+  background: #1f2130;
+  color: #ffffff;
+  border: 1px solid #2a2c3b;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* Ensure project copy text is white */
+.project-copy { color: #ffffff; }
+.project-copy .lead { color: #ffffff; }
+
+.project-mosaic {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  /* Control row heights so tile edges align perfectly */
+  --row1: clamp(220px, 26vh, 320px);
+  --row2: clamp(260px, 34vh, 420px);
+  --row3: clamp(160px, 22vh, 260px);
+  grid-template-rows: var(--row1) var(--row2) var(--row3);
+  grid-template-areas:
+    'tall   topB      topC'
+    'tall   wide      wide'
+    'bottom underwide underwide';
+  gap: 12px; /* keep tight, consistent spacing */
+}
+
+/* (Removed width override for Pure Hap grid to avoid shrinking other tiles) */
+/* Ensure full flyer is visible in bottom tile */
+.pure-hap .tile.bottom img { object-fit: cover; background: #0f1118; }
+/* Handle rotation while keeping hover scale */
+.pure-hap .tile img.rotate-180 { transform: rotate(180deg); }
+.pure-hap .tile:hover img.rotate-180 { transform: rotate(180deg) scale(1.03); }
+/* Zoom in Pure Hap bottom flyer */
+.pure-hap .tile.bottom img.rotate-180 { transform: rotate(180deg) scale(1.08); }
+.pure-hap .tile.bottom:hover img.rotate-180 { transform: rotate(180deg) scale(1.12); }
+
+/* Pure Hap: subtly extend only the left-side tiles (tall + bottom) leftwards */
+.pure-hap .tile.tall,
+.pure-hap .tile.bottom {
+  margin-left: -64px;            /* pull left edge further outward */
+  width: calc(100% + 64px);      /* keep right edge aligned */
+}
+
+/* Pure Hap: show the top of the wide bottom image */
+.pure-hap .tile.underwide img { object-position: top center; }
+
+/* AR You Ready: extend left tiles a little */
+.ar-you-ready .tile.tall,
+.ar-you-ready .tile.bottom {
+  margin-left: -28px;
+  width: calc(100% + 28px);
+}
+
+/* AR You Ready: split bottom wide area into two separate tiles */
+.ar-you-ready .project-mosaic {
+  grid-template-areas:
+    'tall   topB   topC'
+    'tall   wide   wide'
+    'bottom underL underR';
+}
+.tile.underL { grid-area: underL; }
+.tile.underR { grid-area: underR; }
+
+@media (max-width: 900px) {
+  .ar-you-ready .project-mosaic {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-template-areas:
+      'topB'
+      'topC'
+      'wide'
+      'underL'
+      'underR'
+      'tall'
+      'bottom';
+  }
+}
+
+.tile { position: relative; overflow: hidden; border-radius: 12px; border: 1px solid #262730; background: #0f1118; cursor: zoom-in; }
+.tile img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .25s ease; }
+.tile:hover img { transform: scale(1.03); }
+
+.tile.tall { grid-area: tall; }
+.tile.topB { grid-area: topB; }
+.tile.topC { grid-area: topC; }
+.tile.wide { grid-area: wide; }
+.tile.underwide { grid-area: underwide; }
+.tile.bottom { grid-area: bottom; }
+
+@media (max-width: 900px) {
+  .project-mosaic {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-template-areas:
+      'topB'
+      'topC'
+      'wide'
+      'underwide'
+      'tall'
+      'bottom';
+  }
+  .tile.tall { height: clamp(320px, 52vh, 520px); }
+  .tile.wide { height: clamp(200px, 28vh, 320px); }
+}
+
+/* Lightbox overlay */
+#lightbox-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.88); display: none; align-items: center; justify-content: center; z-index: 4000; padding: 24px; }
+#lightbox-overlay.open { display: flex; }
+#lightbox-overlay .lightbox-image { max-width: min(90vw, 1600px); max-height: min(90vh, 1000px); border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,.6); }
+#lightbox-overlay .lightbox-image.rotated { transform: rotate(180deg); }
+#lightbox-overlay .lightbox-close { position: absolute; top: 16px; right: 16px; background: rgba(0,0,0,.6); color: #fff; border: 1px solid rgba(255,255,255,.25); border-radius: 999px; width: 36px; height: 36px; line-height: 32px; font-size: 22px; font-weight: 700; cursor: pointer; }
+body.no-scroll { overflow: hidden; }
+
+/* About section */
+.about {
+  background: #181b24;
+  padding: 10vh 0;
+}
+
+.about .band-container {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;  /* text | photo */
+  grid-template-rows: auto auto;      /* row1: heading/photo, row2: edu/extras */
+  align-items: start;                  /* top-align both columns */
+  gap: 48px 64px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.about-content { grid-column: 1; grid-row: 1; }
+.about-side     { grid-column: 2; grid-row: 1 / span 2; }
+.about-edu      { grid-column: 1; grid-row: 2; align-self: stretch; }
+.about-content h2 { margin-top: 0; }
+.about-photo { margin: 0; }
+
+.about-content {
+  flex: 1 1 550px;
+  max-width: 650px;
+}
+
+.about-content h2 {
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  margin-bottom: 24px;
+  line-height: 1.1;
+}
+
+.about-content { color: #ffffff; }
+.about-content p { color: #ffffff; margin-bottom: 18px; }
+.about .about-content .lead { color: #ffffff; }
+
+.about-photo {
+  flex: 1 1 420px;
+  width: 100%;
+  max-width: 520px;
+  aspect-ratio: 1 / 1; /* make square */
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #262730;
+  box-shadow: 0 10px 40px rgba(0,0,0,.35);
+}
+
+.about-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;               /* fill the square */
+  object-position: top center;     /* use the top of the image */
+  transform: scale(1.30);          /* slightly more zoom */
+  transform-origin: top center;    /* anchor the zoom at the top */
+}
+
+/* Skills section under About photo */
+.about-side { flex: 1 1 420px; max-width: 520px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.about-extras { width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; min-height: 220px; }
+.about-edu { display: flex; flex-direction: column; justify-content: center; min-height: 220px; }
+.about-edu h3 { color: #fff; margin: 0 0 8px; font-size: 1.1rem; }
+.edu-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.edu-list li { color: var(--muted); }
+.edu-list strong { color: #fff; }
+.about-photo { width: 100%; }
+.skills { width: 100%; text-align: center; }
+.languages { width: 100%; text-align: center; }
+
+.skills h3 {
+  color: #ffffff;
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+}
+
+.skills-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skill {
+  background: #1f2130;
+  color: #ffffff;
+  border: 1px solid #2a2c3b;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.skill:hover {
+  background: var(--accent);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 900px) {
+  .skills { margin-top: 10px; }
+}
+
+/* Empty logo squares under Skills */
+.tool-logos {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  justify-items: stretch;
+}
+.tool-logo {
+  width: 100%;
+  aspect-ratio: 1 / 1; /* keep tiles square */
+  border-radius: 12px;
+  border: 1px dashed #2a2c3b;
+  background: #0f1118; /* empty placeholder */
+  box-shadow: inset 0 4px 16px rgba(0,0,0,.25);
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+/* Specific logo: Blender */
+.tool-logo[aria-label="Blender"] {
+  background-image: url('Images/BlenderLogo.png');
+  background-size: 100% 100%;   /* fill the entire tile */
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Adobe-like letter tiles */
+.tool-logo[aria-label="Illustrator"],
+.tool-logo[aria-label="Photoshop"],
+.tool-logo[aria-label="Premiere Pro"] {
+  background: #171313;
+}
+
+.tool-logo[aria-label="Illustrator"]::after,
+.tool-logo[aria-label="Photoshop"]::after,
+.tool-logo[aria-label="Premiere Pro"]::after {
+  content: attr(data-abbrev);
+  color: #fff;
+  font-weight: 900;
+  font-family: "Arial Black", Impact, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  font-size: clamp(28px, 6.2vw, 48px);
+  letter-spacing: -0.02em;
+}
+@media (max-width: 900px) {
+  /* keep 4 columns; adjust in markup/CSS if you prefer wrapping */
+}
+
+/* Languages under About */
+.languages { flex-basis: 100%; text-align: center; margin-top: 8px; }
+.languages h3 { color: #fff; font-size: 1.2rem; margin: 12px 0; }
+.languages-list { list-style: none; padding: 0; margin: 0; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.languages-list .lang { background: #1f2130; color: #fff; border: 1px solid #2a2c3b; border-radius: 999px; padding: 6px 14px; font-size: .9rem; font-weight: 500; letter-spacing: .02em; }
+
+/* Stack on smaller screens */
+@media (max-width: 900px) {
+  .about .band-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 32px;
+    text-align: center;
+  }
+  .about-side { grid-column: 1; grid-row: 2; }
+  .about-edu  { grid-column: 1; grid-row: 3; min-height: auto; }
+  .about-extras { min-height: auto; }
+  .about-content,
+  .about-side,
+  .about-edu { max-width: 100%; }
+  .about-photo { max-width: 100%; height: auto; }
+  .tool-logos { grid-template-columns: repeat(4, 64px); }
+}
+
+/* Intro hero */
+.intro .band-container { max-width: 1280px; padding-top: 14vh; }
+.intro-hero {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: 32px;
+}
+.intro-hero.centered { grid-template-columns: 1fr; justify-items: center; }
+.intro-hero.centered .intro-copy { text-align: center; max-width: 80ch; margin: 0 auto; }
+.intro-copy .headline { font-size: clamp(3rem, 8vw, 7rem); line-height: 0.95; margin: 0 0 8px; }
+.intro-copy .hi { color: #e6e7eb; letter-spacing: -0.02em; }
+.intro-copy .subhead { font-size: clamp(1rem, 2.2vw, 1.4rem); margin: 0 0 8px; color: var(--text); }
+.intro-copy .lead { color: var(--muted); margin: 0; }
+.intro-photo { margin: 0; height: clamp(260px, 48vh, 520px); overflow: hidden; }
+.intro-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center; /* show top portion */
+  border-radius: 16px;
+  border: 1px solid #262730;
+  box-shadow: 0 10px 40px rgba(0,0,0,.35);
+}
+@media (max-width: 900px) {
+  .intro-hero { grid-template-columns: 1fr; }
+  .intro-photo { order: -1; }
+  .intro .band-container { padding-top: 10vh; }
+}
+
+/* (old about grid styles removed) */
+
+/* Contact section */
+.contact .band-container { display: grid; gap: 28px; grid-template-columns: 1fr; max-width: 1200px; margin: 0 auto; justify-items: center; }
+/* Keep a single centered column on all screen sizes */
+@media (min-width: 900px) { .contact .band-container { grid-template-columns: 1fr; } }
+.contact .band-container > h2 { text-align: center; grid-column: 1 / -1; }
+.contact-card, .contact-form { width: min(100%, 560px); }
+.contact-subtitle { grid-column: 1 / -1; text-align: center; margin: 4px 0 -8px; color: var(--text); font-size: 1.2rem; }
+.visually-hidden { position: absolute !important; height: 1px; width: 1px; overflow: hidden; clip: rect(1px,1px,1px,1px); white-space: nowrap; }
+.contact-card {
+  background: var(--panel);
+  border: 1px solid #262730;
+  border-radius: 12px;
+  padding: 16px;
+}
+.contact-card h2 { margin: 0 0 8px; }
+.contact-card a { color: #cfd2dc; text-decoration: underline; }
+
+.contact-form {
+  background: var(--panel);
+  border: 1px solid #262730;
+  border-radius: 12px;
+  padding: 16px;
+}
+.contact-form h2 { margin: 0 0 12px; }
+.form-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+@media (min-width: 700px) {
+  .form-grid { grid-template-columns: 1fr 1fr; }
+  .field-full { grid-column: 1 / -1; }
+}
+.field label { display: block; margin: 0 0 6px; font-weight: 600; }
+.field input, .field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #2a2c3b;
+  background: #12131a;
+  color: var(--text);
+}
+.field textarea { resize: vertical; }
+.field input:focus, .field textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(79,70,229,0.25);
+}
+.pill {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: .8rem;
+  background: #1f2130;
+  color: #cfd2dc;
+  border: 1px solid #2a2c3b;
+}
+
+/* Simple button for project links */
+.btn {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.1);
+  font-weight: 600;
+}
+.btn:hover { filter: brightness(1.05); }
+
+/* Footer */
+.site-footer {
+  background: #181b24; /* match contact band for seamless join */
+  border-top: none;
+  padding: 16px 0;
+}
+.site-footer .footer-container {
+  max-width: 1680px;
+  margin: 0 auto;
+  padding: 0 24px;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* Tighten space above footer under Contact */
+#contact.band { padding-bottom: 0; }
+.site-footer { margin-top: -1px; }
