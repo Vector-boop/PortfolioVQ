@@ -38,9 +38,15 @@
   }
 
   function init(){
-    const tiles = document.querySelectorAll('.project-mosaic .tile img');
+    const selectors = [
+      '.project-mosaic .tile img',
+      '.project-gallery .tile img'
+    ];
+    const tiles = document.querySelectorAll(selectors.join(','));
     if(!tiles.length) return;
     tiles.forEach(img => {
+      if (img.dataset.lightboxBound) return;
+      img.dataset.lightboxBound = 'true';
       img.addEventListener('click', () => {
         const full = img.getAttribute('data-full') || img.currentSrc || img.src;
         open(full, img.alt, img);
